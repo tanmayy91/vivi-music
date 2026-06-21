@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nerox Music</title>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideInUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        .container {
+            position: relative;
+            z-index: 1;
+            padding: 2rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: rgba(0,0,0,0.5); /* Semi-transparent overlay */
+        }
+        h1, h3, .download-button, .about-section, .features {
+            animation: fadeIn 1s ease-in-out, slideInUp 0.8s ease-out;
+        }
+        h1 {
+            font-size: 4rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        }
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin-top: 0;
+            margin-bottom: 2rem;
+            color: #e0e0e0;
+        }
+        .about-section {
+            max-width: 800px;
+            margin: 2rem auto;
+            text-align: left;
+            background: rgba(30, 30, 30, 0.8);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            animation-delay: 0.2s; /* Stagger animation */
+        }
+        .about-section h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .about-section p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        .download-button {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            margin-top: 2rem;
+            transition: background-color 0.3s, transform 0.3s;
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+            animation-delay: 0.4s;
+        }
+        .download-button:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+        .features {
+          display: flex;
+          justify-content: space-around;
+          margin-top: 2rem;
+          flex-wrap: wrap;
+          animation-delay: 0.6s;
+        }
+        .feature-item {
+          width: 45%;
+          min-width: 300px;
+          margin-bottom: 2rem;
+          transition: transform 0.3s ease-in-out;
+        }
+        .feature-item:hover {
+            transform: translateY(-10px);
+        }
+        .feature-item h3 {
+          font-size: 1.2rem;
+          color: #4CAF50;
+        }
+        .feature-item ul {
+          list-style: none;
+          padding: 0;
+        }
+        .feature-item li {
+          margin-bottom: 0.5rem;
+        }
+        img {
+            max-width: 80%;
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+        }
+
+    </style>
+</head>
+<body>
+
+    <canvas></canvas>
+
+    <div class="container">
+        <img src="assets/banner.png" alt="Nerox Music Banner">
+        <h1>Nerox Music</h1>
+        <h3>More Than Just Music — Your Ultimate Audio Experience</h3>
+
+        <a href="https://github.com/vivizzz007/vivi-music/releases" class="download-button">Download Now</a>
+
+        <div class="about-section">
+            <h2>🎵 About Nerox</h2>
+            <p>✨ <b>Nerox</b> isn't just another music player — it's a premium, modern audio ecosystem engineered for listeners who demand more. Powered by a responsive design engine that dynamically matches your album art's color palette, Nerox completely shifts to match your aesthetic on every single beat.</p>
+            <p>From stunning animated canvas visualizers to fluid physics-based micro-animations, every interaction is crafted to elevate your listening. Stream ad-free, sync karaoke lyrics, share your sound instantly, and enjoy an elegant interface designed with modern Material 3 guidelines.</p>
+            <div class="features">
+              <div class="feature-item">
+                <h3>🎨 Expressive UI & Design</h3>
+                <ul>
+                  <li><b>Dynamic Material You:</b> Beautiful adaptive colors that shift to match your playing album art.</li>
+                  <li><b>Premium Animations:</b> Silky-smooth micro-animations and seamless screen transitions.</li>
+                  <li><b>Modern Architecture:</b> Sleek, modern layouts engineered with Android's latest Material 3 guidelines.</li>
+                </ul>
+              </div>
+              <div class="feature-item">
+                <h3>🎵 Advanced Streaming</h3>
+                <ul>
+                  <li><b>Full Catalog Integration:</b> Stream any song from YouTube and YT Music, completely ad-free.</li>
+                  <li><b>Animated Canvas:</b> Stunning Apple Music-style animated backdrops that bring music to life.</li>
+                  <li><b>Background Playback:</b> High-quality continuous playback with full notification drawer controls.</li>
+                </ul>
+              </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/gh/tkabalin/webgl-fluid-background@master/dist/webgl-fluid.js"></script>
+    <script>
+        const canvas = document.getElementsByTagName('canvas')[0];
+        const fluid = new WebGLFluid(canvas, {
+            IMMEDIATE: true,
+            TRIGGER: 'hover',
+            SIM_RESOLUTION: 128,
+            DYE_RESOLUTION: 512,
+            CAPTURE_RESOLUTION: 512,
+            DENSITY_DISSIPATION: 0.98,
+            VELOCITY_DISSIPATION: 0.99,
+            PRESSURE: 0.8,
+            PRESSURE_ITERATIONS: 20,
+            CURL: 30,
+            SPLAT_RADIUS: 0.25,
+            SPLAT_FORCE: 6000,
+            SPLAT_COUNT: 1,
+            SHADING: true,
+            COLORFUL: true,
+            COLOR_UPDATE_SPEED: 10,
+            PAUSED: false,
+            BACK_COLOR: { r: 18, g: 18, b: 18 },
+            TRANSPARENT: false,
+            BLOOM: true,
+            BLOOM_ITERATIONS: 8,
+            BLOOM_RESOLUTION: 256,
+            BLOOM_INTENSITY: 0.8,
+            BLOOM_THRESHOLD: 0.6,
+            BLOOM_SOFT_KNEE: 0.7,
+            SUNRAYS: true,
+            SUNRAYS_RESOLUTION: 196,
+            SUNRAYS_WEIGHT: 1.0,
+        });
+    </script>
+
+</body>
+</html>
