@@ -36,7 +36,6 @@ import com.music.vivi.LocalPlayerAwareWindowInsets
 import com.music.vivi.ui.component.IconButton
 import com.music.vivi.ui.component.Material3SettingsGroup
 import com.music.vivi.ui.component.Material3SettingsItem
-import com.music.vivi.ui.screens.Screens
 import com.music.vivi.ui.utils.backToMain
 import com.music.vivi.vivimusic.updater.getUpdateAvailableState
 
@@ -111,13 +110,6 @@ fun SettingsScreen(
                         icon = painterResource(R.drawable.account),
                         title = { Text(stringResource(R.string.account)) },
                         onClick = { navController.navigate("settings/account") }
-                    )
-                )
-                add(
-                    Material3SettingsItem(
-                        icon = painterResource(R.drawable.group),
-                        title = { Text(stringResource(R.string.listen_together)) },
-                        onClick = { navController.navigate(Screens.ListenTogether.route) }
                     )
                 )
                 add(

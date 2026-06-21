@@ -323,30 +323,6 @@ fun YouTubeSongMenu(
         item {
             Material3MenuGroup(
                 items = listOfNotNull(
-                    if (listenTogetherManager != null && listenTogetherManager.isInRoom && !listenTogetherManager.isHost) {
-                        Material3MenuItemData(
-                            title = { Text(text = stringResource(R.string.suggest_to_host)) },
-                            icon = {
-                                Icon(
-                                    painter = painterResource(R.drawable.queue_music),
-                                    contentDescription = null,
-                                )
-                            },
-                            onClick = {
-                                val durationMs = if (song.duration != null && song.duration!! > 0) song.duration!! * 1000L else 180000L
-                                val trackInfo = com.music.vivi.listentogether.TrackInfo(
-                                    id = song.id,
-                                    title = song.title,
-                                    artist = artists.joinToString(", ") { it.name },
-                                    album = song.album?.name,
-                                    duration = durationMs,
-                                    thumbnail = song.thumbnail
-                                )
-                                listenTogetherManager.suggestTrack(trackInfo)
-                                onDismiss()
-                            }
-                        )
-                    } else null,
                     if (!isGuest) {
                         Material3MenuItemData(
                             title = { Text(text = stringResource(R.string.start_radio)) },

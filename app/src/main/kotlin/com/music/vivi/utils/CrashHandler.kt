@@ -50,7 +50,7 @@ class CrashHandler private constructor(
         }.toString()
 
         return buildString {
-            appendLine("vivimusic Crash Report")
+            appendLine("Nerox Music Crash Report")
             appendLine("=".repeat(50))
             appendLine()
             appendLine("Manufacturer: ${Build.MANUFACTURER}")

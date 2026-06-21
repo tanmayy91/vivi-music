@@ -59,7 +59,7 @@ class DiscordRPC(
         }
         if (button2Visible) {
             val resolvedText = resolveVariables(
-                button2Text.ifEmpty { "Visit vivimusic" },
+                button2Text.ifEmpty { "Visit Nerox Music" },
                 song
             )
             buttonsList.add(resolvedText to "https://github.com/tanmayy91/vivi-music")

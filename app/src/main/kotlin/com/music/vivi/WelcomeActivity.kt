@@ -502,7 +502,7 @@ fun WelcomePagerScreen(onFinished: () -> Unit) {
                     Spacer(modifier = Modifier.height(16.dp))
 
                     Text(
-                        text = "ViviMusic is open-source and depends on community support to grow. Your help makes a difference!",
+                        text = "Nerox Music is open-source and depends on community support to grow. Your help makes a difference!",
                         style = MaterialTheme.typography.bodyLarge.copy(
                             fontFamily = GoogleSansFlex
                         ),
@@ -541,8 +541,8 @@ fun WelcomePagerScreen(onFinished: () -> Unit) {
                             icon = painterResource(com.music.vivi.R.drawable.telegram),
                             iconColor = Color(0xFF67d4ff),
                             iconTint = Color(0xFF004e5d),
-                            title = "Join Telegram",
-                            description = "Get the latest updates and chat with the community.",
+                            title = "GitHub Profile",
+                            description = "Visit the developer's GitHub profile.",
                             shape = middleCardShape,
                             control = {
                                 Icon(
@@ -562,8 +562,8 @@ fun WelcomePagerScreen(onFinished: () -> Unit) {
                             icon = painterResource(com.music.vivi.R.drawable.currency_rupee_upi),
                             iconColor = Color(0xFFffb4ab),
                             iconTint = Color(0xFF690005),
-                            title = "Support via UPI",
-                            description = "Directly support development via UPI.",
+                            title = "View Repository",
+                            description = "Explore the source code on GitHub.",
                             shape = middleCardShape,
                             control = {
                                 Icon(
@@ -583,8 +583,8 @@ fun WelcomePagerScreen(onFinished: () -> Unit) {
                             icon = painterResource(com.music.vivi.R.drawable.buymeacoffee),
                             iconColor = Color(0xFFffb4ab),
                             iconTint = Color(0xFF690005),
-                            title = "Buy Me a Coffee",
-                            description = "Support the project through Ko-fi.",
+                            title = "Contribute",
+                            description = "Report issues or contribute to Nerox Music.",
                             shape = bottomCardShape,
                             control = {
                                 Icon(
