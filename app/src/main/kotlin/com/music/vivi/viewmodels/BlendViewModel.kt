@@ -63,7 +63,7 @@ class BlendViewModel @Inject constructor(
             error.value = null
             val name = displayName.trim().ifBlank { "Me" }
             val (from, to) = getYearRange()
-            val topArtistsRaw = dao.mostPlayedArtists(from, to, 30).first()
+            val topArtistsRaw = dao.mostPlayedArtists(fromTimeStamp = from, limit = 30, toTimeStamp = to).first()
             val artistNames = topArtistsRaw.map { it.artist.name }
             val code = generateCode()
             val record = BlendRecord(
@@ -133,7 +133,7 @@ class BlendViewModel @Inject constructor(
             blendResult.value = null
 
             val (from, to) = getYearRange()
-            val topArtistsRaw = dao.mostPlayedArtists(from, to, 30).first()
+            val topArtistsRaw = dao.mostPlayedArtists(fromTimeStamp = from, limit = 30, toTimeStamp = to).first()
             val artistNames = topArtistsRaw.map { it.artist.name }
 
             if (artistNames.isEmpty()) {
@@ -159,7 +159,7 @@ class BlendViewModel @Inject constructor(
         viewModelScope.launch {
             isSaving.value = true
             val (from, to) = getYearRange()
-            val topArtistsRaw = dao.mostPlayedArtists(from, to, 30).first()
+            val topArtistsRaw = dao.mostPlayedArtists(fromTimeStamp = from, limit = 30, toTimeStamp = to).first()
             val artistNames = topArtistsRaw.map { it.artist.name }
             val code = generateCode()
             val record = BlendRecord(

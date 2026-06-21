@@ -29,7 +29,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.music.vivi.LocalPlayerAwareWindowInsets
 import com.music.vivi.R
-import com.music.vivi.blend.SupabaseBlendClient
+import com.music.vivi.blend.BlendRecord
 import com.music.vivi.viewmodels.BlendResult
 import com.music.vivi.viewmodels.BlendViewModel
 import androidx.compose.ui.geometry.Offset
@@ -521,7 +521,7 @@ private fun JoinBlendCard(
     onCodeChange: (String) -> Unit,
     isJoining: Boolean,
     onJoin: () -> Unit,
-    joinedBlend: com.music.vivi.blend.BlendRecord?,
+    joinedBlend: BlendRecord?,
     colorScheme: ColorScheme
 ) {
     Card(
