@@ -35,11 +35,16 @@ android {
 //        val lastFmKey = localProperties.getProperty("LASTFM_API_KEY") ?: System.getenv("LASTFM_API_KEY") ?: ""
 //        val lastFmSecret = localProperties.getProperty("LASTFM_SECRET") ?: System.getenv("LASTFM_SECRET") ?: ""
         
-        val lastFmKey = "694cbaa17c78202a133eac4656dff651"
-        val lastFmSecret = "a0fdaf6060f19128c4a84f297c71e627"
+        val lastFmKey = "11ac10213e724ca72e1e3382bee647dd"
+        val lastFmSecret = "7db115cf6dbde455177619c3ec0d2e03"
 
         buildConfigField("String", "LASTFM_API_KEY", "\"$lastFmKey\"")
         buildConfigField("String", "LASTFM_SECRET", "\"$lastFmSecret\"")
+
+        val supabaseUrl = localProperties.getProperty("SUPABASE_URL") ?: System.getenv("SUPABASE_URL") ?: ""
+        val supabaseKey = localProperties.getProperty("SUPABASE_ANON_KEY") ?: System.getenv("SUPABASE_ANON_KEY") ?: ""
+        buildConfigField("String", "SUPABASE_URL", "\"$supabaseUrl\"")
+        buildConfigField("String", "SUPABASE_ANON_KEY", "\"$supabaseKey\"")
 
 //add nightly build label support
         val isNightly = project.hasProperty("nightly") && project.property("nightly") == "true"

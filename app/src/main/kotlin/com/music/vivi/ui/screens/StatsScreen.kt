@@ -442,6 +442,22 @@ fun StatsScreen(
                     )
                 }
                 IconButton(
+                    onClick = { navController.navigate("dashboard") }
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.trending_up),
+                        contentDescription = "Dashboard",
+                    )
+                }
+                IconButton(
+                    onClick = { navController.navigate("blend") }
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.group_outlined),
+                        contentDescription = "Blend",
+                    )
+                }
+                IconButton(
                     onClick = { navController.navigate("wrapped") }
                 ) {
                     Icon(

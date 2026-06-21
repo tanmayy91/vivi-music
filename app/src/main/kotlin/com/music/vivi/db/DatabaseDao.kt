@@ -466,6 +466,23 @@ interface DatabaseDao {
     @Query("SELECT SUM(playTime) FROM event WHERE timestamp >= :fromTimeStamp AND timestamp <= :toTimeStamp")
     fun getTotalPlayTimeInRange(fromTimeStamp: Long, toTimeStamp: Long): Flow<Long?>
 
+    @Query("""
+        SELECT (timestamp / 3600000) % 24 AS hour, SUM(playTime) AS totalMs
+        FROM event
+        WHERE timestamp >= :dayStart AND timestamp < :dayEnd
+        GROUP BY (timestamp / 3600000) % 24
+        ORDER BY hour
+    """)
+    fun getHourlyPlayTime(dayStart: Long, dayEnd: Long): Flow<List<com.music.vivi.db.entities.HourPlayTime>>
+
+    @Query("""
+        SELECT year * 100 + month AS monthKey, SUM(count) AS totalCount
+        FROM playCount
+        GROUP BY year, month
+        ORDER BY year DESC, month DESC
+    """)
+    fun getMonthlyPlayCounts(): Flow<List<com.music.vivi.db.entities.MonthPlayCount>>
+
     @Query("SELECT COUNT(DISTINCT songId) FROM event WHERE timestamp >= :fromTimeStamp AND timestamp <= :toTimeStamp")
     fun getUniqueSongCountInRange(fromTimeStamp: Long, toTimeStamp: Long): Flow<Int>
 

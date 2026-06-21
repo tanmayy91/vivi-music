@@ -409,6 +409,14 @@ fun NavGraphBuilder.navigationBuilder(
         WrappedScreen(navController)
     }
 
+    composable("dashboard") {
+        DashboardScreen(navController)
+    }
+
+    composable("blend") {
+        BlendScreen(navController)
+    }
+
     dialog("equalizer") {
         EqScreen(navController = navController)
     }

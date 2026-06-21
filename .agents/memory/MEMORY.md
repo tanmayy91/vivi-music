@@ -1,0 +1,4 @@
+- [Nerox Music branding](nerox-branding.md) — all vivizzz007→tanmayy91/vivi-music, app name→Nerox Music, Listen Together removed from UI only (backend untouched)
+- [Last.fm credentials](lastfm-credentials.md) — API key and secret are hardcoded in build.gradle.kts (not local.properties); registered to tanmayy3128
+- [Dashboard & Blend features](dashboard-blend.md) — new screens routed as "dashboard" and "blend"; entry buttons in StatsScreen top bar (trending_up, group_outlined icons)
+- [Supabase blend storage](supabase-blend.md) — uses OkHttp REST calls; credentials read from local.properties (SUPABASE_URL/SUPABASE_ANON_KEY) or env vars, baked into BuildConfig

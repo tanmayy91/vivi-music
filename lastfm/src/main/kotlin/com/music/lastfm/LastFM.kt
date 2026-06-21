@@ -1,8 +1,12 @@
 package com.music.lastfm
 
 import com.music.lastfm.models.Authentication
+import com.music.lastfm.models.LastFmArtist
 import com.music.lastfm.models.LastFmError
+import com.music.lastfm.models.LastFmTrack
 import com.music.lastfm.models.TokenResponse
+import com.music.lastfm.models.UserTopArtistsResponse
+import com.music.lastfm.models.UserTopTracksResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.okhttp.OkHttp
@@ -196,6 +200,40 @@ object LastFM {
     }
 
     fun isInitialized(): Boolean = API_KEY.isNotEmpty() && SECRET.isNotEmpty()
+
+    suspend fun getUserTopArtists(
+        username: String,
+        period: String = "overall",
+        limit: Int = 20
+    ): Result<List<LastFmArtist>> = runCatching {
+        val response = client.get {
+            url("https://ws.audioscrobbler.com/2.0/")
+            parameter("method", "user.gettopartists")
+            parameter("user", username)
+            parameter("api_key", API_KEY)
+            parameter("format", "json")
+            parameter("period", period)
+            parameter("limit", limit)
+        }
+        response.body<UserTopArtistsResponse>().topartists.artist
+    }
+
+    suspend fun getUserTopTracks(
+        username: String,
+        period: String = "overall",
+        limit: Int = 20
+    ): Result<List<LastFmTrack>> = runCatching {
+        val response = client.get {
+            url("https://ws.audioscrobbler.com/2.0/")
+            parameter("method", "user.gettoptracks")
+            parameter("user", username)
+            parameter("api_key", API_KEY)
+            parameter("format", "json")
+            parameter("period", period)
+            parameter("limit", limit)
+        }
+        response.body<UserTopTracksResponse>().toptracks.track
+    }
 
     const val DEFAULT_SCROBBLE_DELAY_PERCENT = 0.5f
     const val DEFAULT_SCROBBLE_MIN_SONG_DURATION = 30
