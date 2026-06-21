@@ -1,0 +1,8 @@
+nerox_music:
+  supabase_url: ""
+  supabase_anon_key: ""
+  lastfm_api_key: "11ac10213e724ca72e1e3382bee647dd"
+  lastfm_secret: "7db115cf6dbde455177619c3ec0d2e03"
+  crypto_btc_address: ""
+  crypto_usdt_trc20_address: ""
+  crypto_eth_address: ""

@@ -40,8 +40,6 @@ import com.music.vivi.LocalPlayerAwareWindowInsets
 import com.music.vivi.R
 import com.music.vivi.constants.AudioNormalizationKey
 import com.music.vivi.constants.AudioOffload
-import com.music.vivi.constants.AudioQuality
-import com.music.vivi.constants.AudioQualityKey
 import com.music.vivi.constants.EnableSaavnStreamingKey
 import com.music.vivi.constants.SaavnAudioQuality
 import com.music.vivi.constants.SaavnAudioQualityKey
@@ -68,7 +66,6 @@ import com.music.vivi.constants.SkipSilenceInstantKey
 import com.music.vivi.constants.SkipSilenceKey
 import com.music.vivi.constants.StopMusicOnTaskClearKey
 import com.music.vivi.ui.component.DefaultDialog
-import com.music.vivi.ui.component.EnumDialog
 import com.music.vivi.ui.component.IconButton
 import com.music.vivi.ui.component.Material3SettingsGroup
 import com.music.vivi.ui.component.Material3SettingsItem
@@ -83,10 +80,6 @@ fun PlayerSettings(
     navController: NavController,
     scrollBehavior: TopAppBarScrollBehavior,
 ) {
-    val (audioQuality, onAudioQualityChange) = rememberEnumPreference(
-        AudioQualityKey,
-        defaultValue = AudioQuality.AUTO
-    )
     val (crossfadeEnabled, onCrossfadeEnabledChange) = rememberPreference(
         CrossfadeEnabledKey,
         defaultValue = false
@@ -196,29 +189,7 @@ fun PlayerSettings(
         defaultValue = SaavnAudioQuality.QUALITY_320
     )
 
-    var showAudioQualityDialog by remember {
-        mutableStateOf(false)
-    }
 
-    if (showAudioQualityDialog) {
-        EnumDialog(
-            onDismiss = { showAudioQualityDialog = false },
-            onSelect = {
-                onAudioQualityChange(it)
-                showAudioQualityDialog = false
-            },
-            title = stringResource(R.string.audio_quality),
-            current = audioQuality,
-            values = AudioQuality.values().toList(),
-            valueText = {
-                when (it) {
-                    AudioQuality.AUTO -> stringResource(R.string.audio_quality_auto)
-                    AudioQuality.HIGH -> stringResource(R.string.audio_quality_high)
-                    AudioQuality.LOW -> stringResource(R.string.audio_quality_low)
-                }
-            }
-        )
-    }
 
 
 
@@ -269,15 +240,9 @@ fun PlayerSettings(
                     icon = painterResource(R.drawable.graphic_eq),
                     title = { Text(stringResource(R.string.audio_quality)) },
                     description = {
-                        Text(
-                            when (audioQuality) {
-                                AudioQuality.AUTO -> stringResource(R.string.audio_quality_auto)
-                                AudioQuality.HIGH -> stringResource(R.string.audio_quality_high)
-                                AudioQuality.LOW -> stringResource(R.string.audio_quality_low)
-                            }
-                        )
+                        Text("Max Quality — Always On (256kbps AAC / Opus)")
                     },
-                    onClick = { showAudioQualityDialog = true }
+                    onClick = {}
                 ))
                 // JioSaavn settings navigation
                 add(Material3SettingsItem(
