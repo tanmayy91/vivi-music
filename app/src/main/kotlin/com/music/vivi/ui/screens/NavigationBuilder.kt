@@ -61,7 +61,6 @@ import com.music.vivi.ui.screens.settings.AiSettings
 import com.music.vivi.ui.screens.settings.integrations.DiscordSettings
 import com.music.vivi.ui.screens.settings.integrations.IntegrationScreen
 import com.music.vivi.ui.screens.settings.integrations.LastFMSettings
-import com.music.vivi.ui.screens.settings.integrations.ListenTogetherSettings
 import com.music.vivi.ui.screens.recognition.RecognitionScreen
 import com.music.vivi.ui.screens.recognition.RecognitionHistoryScreen
 import com.music.vivi.ui.screens.settings.UpdateSettings
@@ -102,20 +101,6 @@ fun NavGraphBuilder.navigationBuilder(
 
     composable(Screens.Library.route) {
         LibraryScreen(navController)
-    }
-
-    composable(Screens.ListenTogether.route) {
-        ListenTogetherScreen(navController, showTopBar = false)
-    }
-
-    composable(
-        route = "listen_together_from_topbar",
-    ) {
-        ListenTogetherScreen(navController, showTopBar = true)
-    }
-
-    composable("listen_together/chat") {
-        CommentTogetherScreen(navController)
     }
 
     composable("history") {
@@ -402,10 +387,6 @@ fun NavGraphBuilder.navigationBuilder(
 
     composable("settings/integrations/lastfm") {
         LastFMSettings(navController, scrollBehavior)
-    }
-
-    composable(route = "settings/integrations/listen_together") {
-        ListenTogetherSettings(navController, scrollBehavior)
     }
 
     composable("settings/discord/login") {

@@ -531,7 +531,7 @@ fun WelcomePagerScreen(onFinished: () -> Unit) {
                                 )
                             },
                             onClick = {
-                                uriHandler.safeOpenUri(context, "https://github.com/vivizzz007/vivi-music")
+                                uriHandler.safeOpenUri(context, "https://github.com/tanmayy91/vivi-music")
                             }
                         )
 
@@ -552,7 +552,7 @@ fun WelcomePagerScreen(onFinished: () -> Unit) {
                                 )
                             },
                             onClick = {
-                                uriHandler.safeOpenUri(context, "https://t.me/vivimusicapp")
+                                uriHandler.safeOpenUri(context, "https://github.com/tanmayy91")
                             }
                         )
 
@@ -573,7 +573,7 @@ fun WelcomePagerScreen(onFinished: () -> Unit) {
                                 )
                             },
                             onClick = {
-                                uriHandler.safeOpenUri(context, "upi://pay?pa=vividhpashokan@axl&pn=Vividh P Ashokan")
+                                uriHandler.safeOpenUri(context, "https://github.com/tanmayy91/vivi-music")
                             }
                         )
 
@@ -594,7 +594,7 @@ fun WelcomePagerScreen(onFinished: () -> Unit) {
                                 )
                             },
                             onClick = {
-                                uriHandler.safeOpenUri(context, "https://ko-fi.com/vividhpashokan")
+                                uriHandler.safeOpenUri(context, "https://github.com/tanmayy91/vivi-music")
                             }
                         )
 
