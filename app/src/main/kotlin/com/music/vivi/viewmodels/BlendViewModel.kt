@@ -6,9 +6,9 @@ import com.music.vivi.blend.BlendRecord
 import com.music.vivi.blend.SupabaseBlendClient
 import com.music.vivi.blend.generateCode
 import com.music.vivi.db.MusicDatabase
+import com.music.vivi.db.entities.Artist
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.util.Calendar
@@ -34,8 +34,6 @@ class BlendViewModel @Inject constructor(
     private val database: MusicDatabase
 ) : ViewModel() {
 
-    private val dao = database.dao
-
     val isLoading = MutableStateFlow(false)
     val error = MutableStateFlow<String?>(null)
     val blendResult = MutableStateFlow<BlendResult?>(null)
@@ -57,14 +55,22 @@ class BlendViewModel @Inject constructor(
         return Pair(from, to)
     }
 
+    private suspend fun topArtistNames(from: Long, to: Long, limit: Int = 30): List<String> {
+        val raw: List<Artist> = database.mostPlayedArtists(
+            fromTimeStamp = from,
+            limit = limit,
+            toTimeStamp = to
+        ).first()
+        return raw.map { entry -> entry.artist.name }
+    }
+
     fun generateMyCode(displayName: String) {
         viewModelScope.launch {
             isGeneratingCode.value = true
             error.value = null
             val name = displayName.trim().ifBlank { "Me" }
             val (from, to) = getYearRange()
-            val topArtistsRaw = dao.mostPlayedArtists(fromTimeStamp = from, limit = 30, toTimeStamp = to).first()
-            val artistNames = topArtistsRaw.map { it.artist.name }
+            val artistNames = topArtistNames(from, to)
             val code = generateCode()
             val record = BlendRecord(
                 code = code,
@@ -104,21 +110,21 @@ class BlendViewModel @Inject constructor(
                 return@launch
             }
 
-            val u1Artists = myRecord.user1_top_artists.split(",").filter { it.isNotBlank() }
-            val u2Artists = friendRecord.user1_top_artists.split(",").filter { it.isNotBlank() }
+            val u1Artists = myRecord.user1_top_artists.split(",").filter { s -> s.isNotBlank() }
+            val u2Artists = friendRecord.user1_top_artists.split(",").filter { s -> s.isNotBlank() }
 
-            val u1Set = u1Artists.map { it.lowercase() }.toSet()
-            val u2Set = u2Artists.map { it.lowercase() }.toSet()
+            val u1Set = u1Artists.map { s -> s.lowercase() }.toSet()
+            val u2Set = u2Artists.map { s -> s.lowercase() }.toSet()
             val shared = u1Set.intersect(u2Set)
-            val sharedNames = u1Artists.filter { it.lowercase() in shared }.take(5)
+            val sharedNames = u1Artists.filter { s -> s.lowercase() in shared }.take(5)
 
             val score = computeCompatibility(u1Artists, u2Artists)
 
             blendResult.value = BlendResult(
                 user1 = myRecord.user1_username,
                 user2 = friendRecord.user1_username,
-                user1Artists = u1Artists.take(10).map { LocalArtistEntry(it) },
-                user2Artists = u2Artists.take(10).map { LocalArtistEntry(it) },
+                user1Artists = u1Artists.take(10).map { s -> LocalArtistEntry(s) },
+                user2Artists = u2Artists.take(10).map { s -> LocalArtistEntry(s) },
                 sharedArtists = sharedNames,
                 compatibilityScore = score
             )
@@ -133,8 +139,7 @@ class BlendViewModel @Inject constructor(
             blendResult.value = null
 
             val (from, to) = getYearRange()
-            val topArtistsRaw = dao.mostPlayedArtists(fromTimeStamp = from, limit = 30, toTimeStamp = to).first()
-            val artistNames = topArtistsRaw.map { it.artist.name }
+            val artistNames = topArtistNames(from, to)
 
             if (artistNames.isEmpty()) {
                 error.value = "No listening history found. Play some music first!"
@@ -146,7 +151,7 @@ class BlendViewModel @Inject constructor(
             blendResult.value = BlendResult(
                 user1 = name,
                 user2 = "?",
-                user1Artists = artistNames.take(10).map { LocalArtistEntry(it) },
+                user1Artists = artistNames.take(10).map { s -> LocalArtistEntry(s) },
                 user2Artists = emptyList(),
                 sharedArtists = emptyList(),
                 compatibilityScore = 0
@@ -159,8 +164,7 @@ class BlendViewModel @Inject constructor(
         viewModelScope.launch {
             isSaving.value = true
             val (from, to) = getYearRange()
-            val topArtistsRaw = dao.mostPlayedArtists(fromTimeStamp = from, limit = 30, toTimeStamp = to).first()
-            val artistNames = topArtistsRaw.map { it.artist.name }
+            val artistNames = topArtistNames(from, to)
             val code = generateCode()
             val record = BlendRecord(
                 code = code,
@@ -189,16 +193,16 @@ class BlendViewModel @Inject constructor(
     }
 
     private fun computeCompatibility(u1Artists: List<String>, u2Artists: List<String>): Int {
-        val u1Set = u1Artists.map { it.lowercase() }.toSet()
-        val u2Set = u2Artists.map { it.lowercase() }.toSet()
+        val u1Set = u1Artists.map { s -> s.lowercase() }.toSet()
+        val u2Set = u2Artists.map { s -> s.lowercase() }.toSet()
         val overlap = u1Set.intersect(u2Set).size.toFloat()
         val union = (u1Set + u2Set).size.toFloat()
         val jaccard = if (union > 0) overlap / union else 0f
 
         val topN = min(u1Artists.size, min(u2Artists.size, 10))
-        val u1Top = u1Artists.take(topN).map { it.lowercase() }
-        val u2Top = u2Artists.take(topN).map { it.lowercase() }
-        val topShared = u1Top.count { it in u2Top }.toFloat()
+        val u1Top = u1Artists.take(topN).map { s -> s.lowercase() }
+        val u2Top = u2Artists.take(topN).map { s -> s.lowercase() }
+        val topShared = u1Top.count { s -> s in u2Top }.toFloat()
         val topScore = if (topN > 0) topShared / topN else 0f
 
         val raw = (jaccard * 0.6f + topScore * 0.4f) * 100f
